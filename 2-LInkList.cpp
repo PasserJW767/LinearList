@@ -13,7 +13,7 @@ typedef struct Node {
 typedef struct Node* LinkList;
 Status InitList(LinkList *L) {
 	*L = (LinkList)malloc(sizeof(Node));  //建立头节点
-	(*L)->next = NULL;    //单链表L为空
+	(*L)->next = NULL;    //单链表L初始化为空
 	return OK;
 }
 Status ListEmpty(LinkList L) {
