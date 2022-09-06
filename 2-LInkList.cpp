@@ -9,8 +9,8 @@ typedef int Status;
 typedef struct Node {
 	ElemType data;
 	struct Node* next;
-}Node;
-typedef struct Node* LinkList;
+}Node, *LinkList;
+//typedef struct Node* LinkList;
 Status InitList(LinkList *L) {
 	*L = (LinkList)malloc(sizeof(Node));  //建立头节点
 	(*L)->next = NULL;    //单链表L初始化为空
@@ -34,6 +34,35 @@ Status GetElem(LinkList L, int i, ElemType* e) {
 	}
 	else if (!p || j > i)
 		return ERROR;
+}
+void CreateListHead(LinkList* L, int n) {
+	// 单链表的整表创建-头插法
+	// Random create n element, create a Linear List L which have head node(Head Insert Method)
+	srand(time(0));// 初始化随机数种子
+	(*L) = (LinkList)malloc(sizeof(Node)); // Initial Head Node, 初始化头结点
+	(*L)->next = NULL;// Set L->next as NULL
+	LinkList p;
+	for (int i = 0; i < n; i++) {// create n nodes
+		p = (LinkList)malloc(sizeof(Node)); // Initial the node
+		p->data = rand() % 100 + 1; // Randomly create between zero to one hundred
+		p->next = (*L)->next; // The next of p point to the next of (*L)
+		(*L)->next = p; // Insert to the head of LinkList
+	}
+}
+void CreateListTail(LinkList* L, int n) {
+	// 单链表的整表创建-尾插法
+	// Rancom create n element, create a Linear List L which have head node(Tail Insert Method)
+	srand(time(0)); // Initial random seed
+	(*L) = (LinkList)malloc(sizeof(Node));
+	LinkList p;
+	LinkList r = (*L);
+	for (int i = 0;i < n;i++) {
+		p = (LinkList)malloc(sizeof(Node));
+		p->data = rand() % 100 + 1;
+		p->next = NULL;
+		r->next = p;
+		r = p;
+	}
 }
 Status ListInsert(LinkList* L, int i, ElemType e) {
 	/*
@@ -79,6 +108,15 @@ int ListLength(LinkList L) {
 	}
 	return i;
 }
+void ReadList(LinkList L) {
+	LinkList p = L->next;
+	cout << p->data << " ";
+	while (p) {
+		cout << p->data << " ";
+		p = p->next;
+	}
+	cout << endl;
+}
 int main() {
 	LinkList L;
 	// 初始化链表
@@ -98,6 +136,16 @@ int main() {
 	int e;
 	cout << "链表删除成功输出1：" << ListDelete(&L, 5, &e) << endl;
 	cout << "e的值：" << e << endl;
+	cout << "----------------" << endl << endl;
+	// 单链表的整表创建-头插法
+	LinkList LHeadInsert;
+	CreateListHead(&LHeadInsert, 10);
+	ReadList(LHeadInsert);
+	cout << "----------------" << endl << endl;
+	// 单链表的整表创建-尾插法
+	LinkList LTailInsert;
+	CreateListTail(&LTailInsert, 10);
+	ReadList(LTailInsert);
 	cout << "----------------" << endl << endl;
 
 	return 0;
