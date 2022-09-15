@@ -99,6 +99,17 @@ Status ListDelete(LinkList* L, int i, ElemType *e) {
 	free(q); // 释放删除结点内存
 	return OK;
 }
+Status ClearList(LinkList *L) {
+	LinkList p, q;
+	p = (*L)->next;
+	while (p != NULL) {
+		q = p->next;
+		free(p);
+		p = q;
+	}
+	(*L)->next = NULL;
+	return OK;
+}
 int ListLength(LinkList L) {
 	int i = 0;
 	LinkList p = L;
@@ -146,6 +157,9 @@ int main() {
 	LinkList LTailInsert;
 	CreateListTail(&LTailInsert, 10);
 	ReadList(LTailInsert);
+	cout << "----------------" << endl << endl;
+	// 单链表的清除
+	cout << "单链表整表清除成功输出1：" << ClearList(&L) << endl;
 	cout << "----------------" << endl << endl;
 
 	return 0;
